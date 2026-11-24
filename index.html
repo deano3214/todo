@@ -2,44 +2,50 @@
 
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, 
-    initial-scale=1.0" />
-    <link rel="stylesheet" href="./style.css">
-    <script src="./script.js" defer></script>
-    <title>Todo</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="./style.css">
+  <script src="./script.js" defer></script>
+  <title>Todo</title>
 </head>
 <body>
   <section class="todo">
-    <div class="date-header">
-      <span id="dayName"></span>
-      <span id="dayNumber"></span>
-      <div class="progress-ring" id="progressRing">
-      <span id="progressText">0%</span>
-    </div>
-  </div>
-   <div class="input">
-    <select id="categoryInput">
-      <option value="personal">Personal</option>
-      <option value="work">Work</option>
-      <option value="school">School</option>
-      <option value="health">Health</option>
-    </select>
-    <input 
-    type="text" 
-    class="input-field" 
-    id="todoInput" 
-    placeholder="add a new todo"
-    />
-  <button class="btn">Add</button>
-</div>
-<ul class="scroll">
-<p class="section-title">Active</p>
-<li id="todoList"></li>
-<p class="section-title">Completed</p>
-<li id="completedList"></li>
-</ul>
- <div>
+
+    <div class="view" id="today-view">
+
+      <div class="date-header">
+        <span id="dayName"></span>
+        <span id="dayNumber"></span>
+        <div class="progress-ring" id="progressRing">
+          <span id="progressText">0%</span>
+        </div>
+      </div>
+
+      <div class="input">
+        <select id="categoryInput">
+          <option value="personal">Personal</option>
+          <option value="work">Work</option>
+          <option value="school">School</option>
+          <option value="health">Health</option>
+        </select>
+        <input type="date" id="dateInput">
+        <input
+          type="text"
+          class="input-field"
+          id="todoInput"
+          placeholder="add a new todo"
+        />
+        <button class="btn">Add</button>
+      </div>
+
+      <ul class="scroll">
+        <p class="section-title">Active</p>
+        <li id="todoList"></li>
+        <p class="section-title">Completed</p>
+        <li id="completedList"></li>
+      </ul>
+
+      <div>
         <hr class="counter">
         <div class="counter-container">
           <p><span id="todoDone">0</span> of <span id="todoCount">0</span> done</p>
@@ -49,20 +55,21 @@
 
     </div>
 
-  <div class="view hidden" id="upcoming-view">
-  <p>Upcoming</p>
-</div>
+    <div class="view hidden" id="upcoming-view">
+      <p class="section-title">Upcoming</p>
+      <div id="upcomingContainer"></div>
+    </div>
 
-<div class="view hidden" id="lists-view">
-  <p class="section-title">Lists</p>
-  <div id="ListsContainer"></div>
-</div>
-<div class="view hidden" id="done-view">
-  <p class="section-title">Done</p>
-  <p><span id="doneCount">0</span> completed</p>
-  <div id="doneList"></div>
-</div>
-    
+    <div class="view hidden" id="lists-view">
+      <p class="section-title">Lists</p>
+      <div id="listsContainer"></div>
+    </div>
+
+    <div class="view hidden" id="done-view">
+      <p class="section-title">Done</p>
+      <p><span id="doneCount">0</span> completed</p>
+      <div id="doneList"></div>
+    </div>
 
     <nav class="bottom-nav">
       <button class="nav-btn active" data-view="today">
@@ -82,8 +89,3 @@
         <span class="nav-label">Done</span>
       </button>
     </nav>
-   
-
-  </section>
-</body>
-</html>

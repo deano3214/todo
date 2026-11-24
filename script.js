@@ -15,6 +15,9 @@ const progressText = document.getElementById("progressText");
 const navButtons = document.querySelectorAll(".nav-btn");
 const doneCountText = document.getElementById("doneCount");
 const doneList = document.getElementById("doneList");
+const listsContainer = document.getElementById("listsContainer");
+const dateInput = document.getElementById("dateInput");
+const upcomingContainer = document.getElementById ("upcomingContainer")
 
 // Initialize
 document.addEventListener("DOMContentLoaded", function () {
@@ -40,6 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
+
 function showDate() {
   const today = new Date();
   dayName.textContent = today.toLocaleDateString("en-AU", { weekday: "long" });
@@ -52,7 +56,8 @@ function addTask() {
     todo.push({
       text: newTask,
       disabled: false,
-      category: categoryInput.value,
+      category: categoryInput.value, 
+      date: dateInput.value,
     });
     saveToLocalStorage();
     todoInput.value = "";
@@ -121,7 +126,78 @@ function displayTasks() {
 
   const percent = todo.length === 0 ? 0 : Math.round((doneCount / todo.length) * 100);
   progressText.textContent = `${percent}%`;
-  progressRing.style.setProperty("--progress", `${percent}%`);
+    progressRing.style.setProperty("--progress", `${percent}%`);
+
+  showLists();
+   showUpcoming();
+}
+
+function showLists() {
+  listsContainer.innerHTML = "";
+
+  const categories = ["personal", "work", "school", "health"];
+
+  categories.forEach((name) => {
+    const count = todo.filter((item) => (item.category || "personal") === name).length;
+
+    const row = document.createElement("div");
+    row.className = "list-row";
+
+    const label = document.createElement("span");
+    label.className = `tag ${name}`;
+    label.textContent = name;
+
+    const number = document.createElement("span");
+    number.className = "list-count";
+    number.textContent = count;
+
+    row.append(label, number);
+    listsContainer.appendChild(row);
+  });
+}
+
+function showUpcoming() {
+  upcomingContainer.innerHTML = "";
+
+  const dated = todo.filter((item) => !item.disabled && item.date);
+  const days = [...new Set(dated.map((item) => item.date))].sort();
+
+  if (days.length === 0) {
+    const empty = document.createElement("p");
+    empty.className = "empty-text";
+    empty.textContent = "No upcoming tasks";
+    upcomingContainer.appendChild(empty);
+    return;
+  }
+
+  days.forEach((day) => {
+    const heading = document.createElement("p");
+    heading.className = "day-heading";
+    heading.textContent = new Date(day + "T00:00:00").toLocaleDateString("en-AU", {
+      weekday: "long",
+      day: "numeric",
+      month: "short",
+    });
+    upcomingContainer.appendChild(heading);
+
+    dated
+      .filter((item) => item.date === day)
+      .forEach((item) => {
+        const row = document.createElement("div");
+        row.className = "upcoming-row";
+
+        const name = document.createElement("p");
+        name.textContent = item.text;
+
+        const tag = document.createElement("span");
+        const category = item.category || "personal";
+        tag.className = `tag ${category}`;
+        tag.textContent = category;
+
+        row.append(name, tag);
+        upcomingContainer.appendChild(row);
+      });
+  });
 }
 
 function editTask(index) {
